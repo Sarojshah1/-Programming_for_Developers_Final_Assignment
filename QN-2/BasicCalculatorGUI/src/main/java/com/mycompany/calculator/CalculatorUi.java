@@ -23,69 +23,69 @@ public class CalculatorUi extends javax.swing.JFrame {
      private class CalculateButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String expression = expressionField.getText();
+            String expression = expressionField.getText();// Get the expression from text field
             try {
-                double result = evaluateExpression(expression);
-                resultLabel.setText("Result: " + result);
+                double result = evaluateExpression(expression); // Evaluate the expression
+                resultLabel.setText("Result: " + result); // Display the result
             } catch (Exception ex) {
-                resultLabel.setText("Error: Invalid expression");
+                resultLabel.setText("Error: Invalid expression"); // Handle invalid expression
             }
         }
     }
      private boolean hasPrecedence(char op1, char op2) {
-        if (op2 == '(' || op2 == ')') return false;
-        if ((op1 == '*' || op1 == '/') && (op2 == '+' || op2 == '-')) return false;
-        return true;
+        if (op2 == '(' || op2 == ')') return false; // Parentheses have highest precedence
+        if ((op1 == '*' || op1 == '/') && (op2 == '+' || op2 == '-')) return false; // Multiplication and division have higher precedence than addition and subtraction
+        return true; // op1 has higher precedence than op2
     }
 
     private double applyOperation(char op, double b, double a) throws Exception {
         switch (op) {
-            case '+': return a + b;
-            case '-': return a - b;
-            case '*': return a * b;
+            case '+': return a + b; // Addition
+            case '-': return a - b; // Subtraction
+            case '*': return a * b; // Multiplication
             case '/': 
-                if (b == 0) throw new Exception("Cannot divide by zero");
-                return a / b;
+                if (b == 0) throw new Exception("Cannot divide by zero"); // Division, handle division by zero
+                return a / b; // Division
         }
-        return 0;
+        return 0; // Default return
     }
         private double evaluateExpression(String expression) throws Exception {
-        Stack<Double> numbers = new Stack<>();
-        Stack<Character> operations = new Stack<>();
-        int len = expression.length();
+        Stack<Double> numbers = new Stack<>(); // Stack to store operands
+        Stack<Character> operations = new Stack<>(); // Stack to store operators
+        int len = expression.length(); // Length of the expression
 
         for (int i = 0; i < len; i++) {
             char ch = expression.charAt(i);
 
-            if (ch == ' ') continue;
+            if (ch == ' ') continue;// Skip spaces
 
-            if (ch >= '0' && ch <= '9') {
+            if (ch >= '0' && ch <= '9') { // If character is a digit
                 StringBuilder sb = new StringBuilder();
                 while (i < len && (expression.charAt(i) >= '0' && expression.charAt(i) <= '9' || expression.charAt(i) == '.')) {
-                    sb.append(expression.charAt(i++));
+                    sb.append(expression.charAt(i++)); // Build the number
                 }
                 i--;
-                numbers.push(Double.parseDouble(sb.toString()));
+                numbers.push(Double.parseDouble(sb.toString())); // Push the number onto the stack
             } else if (ch == '(') {
-                operations.push(ch);
+                operations.push(ch); // Push '(' onto the stack
             } else if (ch == ')') {
                 while (operations.peek() != '(') {
-                    numbers.push(applyOperation(operations.pop(), numbers.pop(), numbers.pop()));
+                    numbers.push(applyOperation(operations.pop(), numbers.pop(), numbers.pop())); // Apply operation
                 }
-                operations.pop();
+                operations.pop();// Pop '(' from the stack
             } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
                 while (!operations.isEmpty() && hasPrecedence(ch, operations.peek())) {
-                    numbers.push(applyOperation(operations.pop(), numbers.pop(), numbers.pop()));
+                    numbers.push(applyOperation(operations.pop(), numbers.pop(), numbers.pop())); // Apply operation based on precedence
                 }
-                operations.push(ch);
+                operations.push(ch); // Push current operator onto the stack
             }
         }
 
         while (!operations.isEmpty()) {
-            numbers.push(applyOperation(operations.pop(), numbers.pop(), numbers.pop()));
+            numbers.push(applyOperation(operations.pop(), numbers.pop(), numbers.pop())); // Apply remaining operations
         }
 
-        return numbers.pop();
+        return numbers.pop(); // Return the final result
     }
 
     /**
