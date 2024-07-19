@@ -1,3 +1,22 @@
+/**
+ * The CityPlanner class provides a solution to modify the travel times of roads in a city
+ * such that the travel time from a source node to a destination node meets a specific target.
+ * The class represents the city as an undirected graph with nodes and roads, where some roads 
+ * may be under construction (indicated by a weight of -1). The main functionality is achieved 
+ * through the `modifyRoads` method.
+ * 
+ * The `modifyRoads` method:
+ * 1. Constructs an adjacency list representation of the graph from the given roads.
+ * 2. Uses Dijkstra's algorithm to find the shortest path from the source to the destination.
+ * 3. Modifies the roads that are under construction to meet the target travel time.
+ * 
+ * Time Complexity:
+ * The time complexity for the Dijkstra's algorithm part is O(E + V log V), where:
+ * - E is the number of edges (roads).
+ * - V is the number of vertices (nodes).
+ * The overall time complexity of the `modifyRoads` method is O(E + V log V), as the road modification
+ * part is linear in terms of the number of roads.
+ */
 import java.util.*;
 
 public class CityPlanner {

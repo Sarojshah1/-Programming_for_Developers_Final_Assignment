@@ -1,3 +1,27 @@
+/**
+ * The TSPHillClimbing class provides a solution to the Traveling Salesman Problem (TSP) using a hill climbing algorithm.
+ * The objective of TSP is to find the shortest possible route that visits each city exactly once and returns to the origin city.
+ * 
+ * The classes and methods in this implementation are as follows:
+ * 
+ * 1. `City` class:
+ *    - Represents a city with x and y coordinates.
+ *    - Contains a method `distanceTo` to calculate the Euclidean distance to another city.
+ * 
+ * 2. `TSPSolution` class:
+ *    - Represents a solution to the TSP problem with a tour (list of cities) and its total cost (distance).
+ *    - Contains a method `calculateCost` to compute the total distance of the tour.
+ * 
+ * 3. `TSPhillClimbing` class:
+ *    - Implements the hill climbing algorithm to find an approximate solution to the TSP.
+ *    - The `solve` method starts with a random tour and iteratively improves it by swapping pairs of cities to minimize the tour cost.
+ *    - The `swap` method generates a new tour by swapping two cities.
+ * 
+ * Time Complexity:
+ * The time complexity of the hill climbing algorithm in this implementation is O(n^2 * n), where n is the number of cities. 
+ * This is because, for each iteration, it considers all pairs of cities (O(n^2)) and performs a tour calculation (O(n)) for each pair. 
+ * The number of iterations depends on the convergence to a local optimum, which is not bounded but generally proportional to the number of city pairs considered.
+ */
 import java.util.*;
 
 public class TSPHillClimbing {

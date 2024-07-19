@@ -1,3 +1,20 @@
+/**
+ * The LongestHikeWithinElevationGainLimit class provides a solution to find the longest contiguous
+ * subarray (hike) in an array of elevations such that the total elevation gain within that subarray does
+ * not exceed a given limit, k.
+ * 
+ * The `longestHike` method:
+ * 1. Uses a sliding window approach with two pointers (`left` and `right`) to maintain a valid window
+ *    where the total elevation gain does not exceed the allowed limit, k.
+ * 2. Iterates through the array with the `right` pointer to expand the window and calculate the cumulative
+ *    elevation gain.
+ * 3. Adjusts the `left` pointer when the cumulative gain exceeds the limit to maintain a valid window.
+ * 4. Updates the maximum length of the valid subarray found so far.
+ * 
+ * Time Complexity:
+ * The time complexity of the solution is O(n), where n is the number of elements in the array. This is because
+ * both the `left` and `right` pointers each move from the start to the end of the array at most once.
+ */
 public class LongestHikeWithinElevationGainLimit {
 
     public static int longestHike(int[] nums, int k) {
@@ -51,6 +68,6 @@ public class LongestHikeWithinElevationGainLimit {
         int[] trail1 = {4, 2, 1, 4, 3, 4, 5, 8, 15};
         int k1 = 3; // Maximum allowed elevation gain
         // Print the result of the longest hike that meets the elevation gain limit
-        System.out.println("Longest hike: " + longestHike(trail1, k1)); // Expected output: 5
+        System.out.println("Longest hike trail1: " + longestHike(trail1, k1)); // Expected output: 5
     }
 }

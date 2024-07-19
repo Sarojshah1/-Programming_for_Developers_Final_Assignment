@@ -1,3 +1,22 @@
+/**
+ * The FriendRequests class provides a solution to process friend requests between houses
+ * while adhering to certain restrictions. It uses the Union-Find data structure with 
+ * path compression and union by rank to efficiently manage the relationships between 
+ * the houses. The class ensures that no friendship request violates the given restrictions.
+ * 
+ * The main functionality is achieved through the `processFriendRequests` method, which:
+ * 1. Initializes a Union-Find structure for the given number of houses.
+ * 2. Processes each friendship request by checking if it violates any restrictions.
+ * 3. Uses Union-Find operations to manage the connectivity of the houses.
+ * 4. Approves or denies the requests based on the restrictions.
+ * 
+ * Time Complexity:
+ * The time complexity for each Union-Find operation (find and union) is nearly O(1) due to path compression and union by rank.
+ * The overall time complexity of the `processFriendRequests` method is O(R + Q * R), where:
+ * - R is the number of restrictions.
+ * - Q is the number of requests.
+ * This complexity arises because each request may need to check against all restrictions in the worst case.
+ */
 import java.util.*;
 
 public class FriendRequests {

@@ -1,3 +1,20 @@
+/**
+ * The MagicalGroveFinder class provides a solution to find the largest sum of coins in a "magical grove"
+ * within a binary tree. A magical grove is defined as a subtree where the value of each node is greater 
+ * than all the values in its left subtree and less than all the values in its right subtree.
+ * The class contains the method `findLargestMagicalGrove` which finds the largest sum of such a grove starting 
+ * from the root node of the binary tree.
+ * 
+ * The `findLargestMagicalGrove` method:
+ * 1. Calls a helper method to recursively traverse the tree and calculate the maximum sum of coins in a valid magical grove.
+ * 2. The helper method `findLargestMagicalGroveHelper` checks if the current node forms a valid magical grove 
+ *    and computes the sum of coins if it does.
+ * 3. If the current node does not form a valid grove, it returns the maximum sum of coins from the subtrees.
+ * 
+ * Time Complexity:
+ * The time complexity of the solution is O(n), where n is the number of nodes in the binary tree.
+ * This is because each node in the tree is visited once during the traversal.
+ */
 // TreeNode class represents a node in the binary tree
 class TreeNode {
     int val;        // Value of the node (magical coin)

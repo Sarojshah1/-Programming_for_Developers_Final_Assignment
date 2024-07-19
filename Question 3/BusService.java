@@ -1,3 +1,19 @@
+/**
+ * The BusService class provides a method to optimize the boarding process by rearranging passengers in groups of size k.
+ * The main functionality is to reverse sublists of the passenger list in increments of k, ensuring that each group of k passengers
+ * is reversed to improve the boarding process. If the remaining number of passengers is less than k, that group is not reversed.
+ * 
+ * The key method in this class is `optimizeBoarding`, which performs the following steps:
+ * 1. Iterates through the list of passengers in increments of k.
+ * 2. For each sublist of size k, reverses the elements within that sublist.
+ * 3. If the remaining number of passengers is less than k, that group is not reversed.
+ * 4. Returns the modified list of passengers.
+ * 
+ * Time Complexity:
+ * The time complexity of the `optimizeBoarding` method is O(n), where:
+ * - `n` is the number of passengers.
+ * This complexity arises because the method iterates through the list of passengers once and performs a constant number of operations for each element.
+ */
 import java.util.LinkedList;
 import java.util.List;
 

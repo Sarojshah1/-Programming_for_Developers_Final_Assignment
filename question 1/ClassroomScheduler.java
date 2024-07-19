@@ -1,5 +1,17 @@
+/**
+ * The ClassroomScheduler class is designed to manage the scheduling of classes in multiple classrooms,
+ * ensuring that as many classes as possible are assigned to the available rooms while minimizing
+ * delays and room conflicts. It provides a method to determine the room that holds the maximum number
+ * of classes, taking into account potential scheduling conflicts and necessary delays.
+ * 
+ * The key method in this class is `maxClassrooms`, which performs the following steps:
+ * 1. Sorts the classes based on their start times and durations.
+ * 2. Attempts to assign each class to an available room without conflict.
+ * 3. If a class cannot be assigned immediately, it delays the class to the earliest possible time.
+ * 4. Tracks the number of classes held in each room.
+ * 5. Determines and returns the index of the room that holds the maximum number of classes.
+ */
 import java.util.*;
-
 public class ClassroomScheduler {
 
     public static int maxClassrooms(int n, int[][] classes) {
@@ -100,8 +112,10 @@ public class ClassroomScheduler {
     public static void main(String[] args) {
         int[][] classes1 = {{0, 10}, {1, 5}, {2, 7}, {3, 4}};
         int[][] classes2 = {{1, 20}, {2, 10}, {3, 5}, {4, 9}, {6, 8}};
+        int[][] classes3 = {{1, 5}, {2, 3}, {3, 8}, {4, 9}, {6, 8},{7,12}};
 
         System.out.println(maxClassrooms(2, classes1)); // Output: 0
         System.out.println(maxClassrooms(3, classes2)); // Output: 1
+        System.out.println(maxClassrooms(3, classes3)); // Output: 1
     }
 }
