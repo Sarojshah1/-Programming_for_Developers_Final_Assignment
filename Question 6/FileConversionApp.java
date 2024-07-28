@@ -202,13 +202,12 @@ public class FileConversionApp extends JFrame {
     private File convertFile(File file, String conversionType) throws Exception {
         // Simulate file conversion with sleep
         Thread.sleep(1000); // Simulate time taken for conversion
-        // Actual conversion logic should be implemented here
+        
 
         // For the sake of this example, let's assume the converted file has the same name with a different extension
         String convertedFileName = file.getName().replace(".pdf", ".docx");
         File convertedFile = new File(file.getParent(), convertedFileName);
 
-        // You would replace this part with actual file conversion logic
         if (!convertedFile.exists()) {
             convertedFile.createNewFile(); // Just to simulate conversion
         }
