@@ -1,4 +1,72 @@
 /**
+ * The DeliveryRouteOptimizationApp is a Java Swing-based GUI application designed to optimize delivery routes using graph algorithms. It allows users to input city data, select an optimization algorithm, and visualize the optimized route on a map. The main class DeliveryRouteOptimizationApp consists of various components and functionalities to achieve this purpose. Here's a detailed explanation of each part:
+
+Class Overview
+Purpose: This class provides a user-friendly interface for optimizing delivery routes by applying graph algorithms (e.g., Dijkstra's Algorithm).
+Main Components:
+JTextArea: For inputting delivery city data.
+JComboBox: For selecting the route optimization algorithm.
+JTextFields: For inputting vehicle capacity, source city, and destination city.
+JButton: For triggering the route optimization process.
+RouteMapPanel: For visualizing cities and routes on a graphical map.
+City Class: Represents individual cities and their connections.
+Components and GUI Setup
+Constructor
+DeliveryRouteOptimizationApp(): Sets up the main frame, initializes components, and makes the frame visible.
+initComponents()
+Sets up the main panel and layout.
+Creates and configures various GUI components (labels, text areas, combo box, text fields, button).
+Adds components to the main panel using GridBagLayout for flexible layout management.
+Initializes the RouteMapPanel and adds it to the main panel for visualizing the route.
+Event Handling
+OptimizeButtonListener
+An inner class implementing ActionListener to handle the click event of the "Optimize Route" button.
+actionPerformed(): Reads input data, validates it, updates city connections, and triggers the optimization process asynchronously using an ExecutorService.
+Core Functionalities
+Data Parsing and Validation
+Reads and parses delivery city data from the JTextArea.
+Validates input format and creates City objects.
+Adds connections between cities based on the input data.
+Route Optimization
+Uses Dijkstra's Algorithm to find the shortest path between the source and destination cities.
+findShortestPathDijkstra(): Implements Dijkstra's Algorithm to calculate the shortest path.
+getClosestCity(): Helper method to get the closest city from the set of unvisited cities.
+reconstructPath(): Reconstructs the shortest path from the source to the destination using the previous city map.
+City Class
+Represents a city with a name, coordinates (x, y), and a map of connections to other cities.
+addConnection(): Adds a connection to another city with a specified distance.
+RouteMapPanel Class
+Custom panel for visualizing the city map and the optimized route.
+updateRoute(): Updates the route to be displayed and triggers a repaint.
+paintComponent(): Draws the cities, connections, and the optimized route on the panel.
+adjustCityPositions(): Adjusts city positions to avoid overlaps in the visualization.
+Main Method
+main(): Entry point of the application, initializes the GUI by creating an instance of DeliveryRouteOptimizationApp.
+Detailed Breakdown of Key Methods
+actionPerformed()
+Input Parsing:
+
+Reads lines from deliveryListTextArea.
+Splits each line into parts to extract city details and connections.
+Creates or retrieves City objects and adds connections.
+Updates cityMap with parsed cities and connections.
+Algorithm Selection and Validation:
+
+Retrieves the selected algorithm from algorithmComboBox.
+Gets source and destination city names from text fields.
+Validates the existence of source and destination cities in cityMap.
+Vehicle Capacity Validation:
+
+Parses and validates the vehicle capacity from the text field.
+Route Optimization:
+
+Executes the route optimization process in a separate thread.
+Calls findShortestPathDijkstra() to find the optimized route.
+Updates the UI with the optimized route using SwingUtilities.invokeLater().
+findShortestPathDijkstra()
+Initializes distance and previous city maps.
+Uses a set of unvisited cities and iteratively finds the shortest path.
+Updates distances to neighboring cities and reconstructs the shortest path.
  * DeliveryRouteOptimizationApp is a Swing-based GUI application for optimizing delivery routes using graph algorithms.
  * It allows users to input city data, select an optimization algorithm, and visualize the optimized route on a map.
  * 
