@@ -124,6 +124,7 @@ public class FileConversionApp extends JFrame {
 
     private void startConversion() {
         conversionWorker = new SwingWorker<>() {
+            private final ConcurrentHashMap<File, Integer> fileProgressMap = new ConcurrentHashMap<>();
             @Override
             protected Void doInBackground() {
                 int fileCount = selectedFiles.size();
@@ -139,11 +140,12 @@ public class FileConversionApp extends JFrame {
                     }
 
                     String conversionType = (String) conversionOptions.getSelectedItem();
-                    publish("Converting " + file.getName() + " to " + conversionType);
+                    publish("Starting conversion of " + file.getName() + " to " + conversionType);
 
                     Future<?> future = executorService.submit(() -> {
                         try {
                             File convertedFile = convertFile(file, conversionType);
+                            convertFileWithProgress(file, conversionType);
                             publish("Converted " + file.getName() + " to " + conversionType);
                             openFile(convertedFile);
                         } catch (Exception ex) {
@@ -175,6 +177,7 @@ public class FileConversionApp extends JFrame {
                 for (String status : chunks) {
                     statusArea.append(status + "\n");
                 }
+                updateOverallProgress();
             }
 
             @Override
@@ -187,6 +190,32 @@ public class FileConversionApp extends JFrame {
                 } catch (CancellationException e) {
                     JOptionPane.showMessageDialog(FileConversionApp.this, "Conversion was cancelled.", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
+            }
+            private void convertFileWithProgress(File file, String conversionType) throws Exception {
+                // Simulate file conversion with sleep and update progress
+                int steps = 10;
+                for (int i = 1; i <= steps; i++) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    Thread.sleep(100); // Simulate work being done
+                    int progress = (i * 100) / steps;
+                    fileProgressMap.put(file, progress);
+                    publish("Progress of " + file.getName() + ": " + progress + "%");
+                    updateOverallProgress();
+                }
+
+                // Simulate the creation of a converted file
+                String convertedFileName = file.getName().replace(".pdf", ".docx");
+                File convertedFile = new File(file.getParent(), convertedFileName);
+                if (!convertedFile.exists()) {
+                    convertedFile.createNewFile();
+                }
+            }
+            private void updateOverallProgress() {
+                int totalProgress = fileProgressMap.values().stream().mapToInt(Integer::intValue).sum();
+                int overallProgress = totalProgress / selectedFiles.size();
+                setProgress(overallProgress);
             }
         };
 
