@@ -136,6 +136,27 @@ public class DeliveryRouteOptimizationApp extends JFrame {
         inputPanel.add(deliveryListLabel, gbc);
 
         deliveryListTextArea = new JTextArea(10, 40);
+        deliveryListTextArea.setText(
+    "CityA, 100, 200, 0, CityB;50, CityC;70\n" +
+    "CityB, 200, 300, 50, CityA;50, CityD;40, CityE;60\n" +
+    "CityC, 150, 250, 70, CityA;70, CityD;60, CityF;80\n" +
+    "CityD, 300, 400, 40, CityB;40, CityC;60, CityG;90\n" +
+    "CityE, 400, 100, 60, CityB;60, CityF;50, CityH;70\n" +
+    "CityF, 500, 300, 80, CityC;80, CityE;50, CityI;90\n" +
+    "CityG, 600, 500, 90, CityD;90, CityH;80, CityJ;100\n" +
+    "CityH, 200, 600, 70, CityE;70, CityG;80, CityI;60\n" +
+    "CityI, 700, 400, 90, CityF;90, CityH;60, CityJ;70\n" +
+    "CityJ, 800, 200, 100, CityG;100, CityI;70, CityA;120\n" +
+    "CityK, 200, 200, 110, CityL;90, CityM;100, CityN;80\n" +
+    "CityL, 450, 450, 90, CityK;90, CityM;110, CityO;130\n" +
+    "CityM, 350, 550, 100, CityK;100, CityL;110, CityP;120\n" +
+    "CityN, 250, 400, 80, CityK;80, CityO;100, CityQ;90\n" +
+    "CityO, 550, 650, 130, CityL;130, CityN;100, CityR;110\n" +
+    "CityP, 150, 450, 120, CityM;120, CityQ;140, CityS;150\n" +
+    "CityQ, 100, 350, 90, CityN;90, CityP;140, CityT;160\n" 
+    
+);
+
         JScrollPane deliveryScrollPane = new JScrollPane(deliveryListTextArea);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -154,7 +175,7 @@ public class DeliveryRouteOptimizationApp extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(new JLabel("Algorithm:"), gbc);
 
-        algorithmComboBox = new JComboBox<>(new String[]{"Dijkstra's Algorithm"});
+        algorithmComboBox = new JComboBox<>(new String[]{"Dijkstra's Algorithm","TSP (Nearest Neighbor)"});
         gbc.gridx = 1;
         inputPanel.add(algorithmComboBox, gbc);
 
@@ -199,9 +220,11 @@ public class DeliveryRouteOptimizationApp extends JFrame {
         // Route Map Panel
         JPanel routePanel = new JPanel(new BorderLayout());
         routeMapPanel = new RouteMapPanel(cityMap);
-    routeMapPanel.setPreferredSize(new Dimension(800, 400));
+    routeMapPanel.setPreferredSize(new Dimension(800, 430));
     routePanel.add(routeMapPanel, BorderLayout.CENTER);
         mainPanel.add(routeMapPanel, BorderLayout.SOUTH);
+        JScrollPane scrollPane = new JScrollPane(routePanel);
+        scrollPane.setPreferredSize(new Dimension(800, 430));
 
         setContentPane(mainPanel);
     }
@@ -295,8 +318,11 @@ public class DeliveryRouteOptimizationApp extends JFrame {
             executorService.execute(() -> {
                 try {
                     List<City> optimizedRoute;
+                    if ("Dijkstra's Algorithm".equals(selectedAlgorithm)) {
                         optimizedRoute = findShortestPathDijkstra(source, destination);
-                    
+                    } else {
+                        optimizedRoute = findTSPNearestNeighbor(source);
+                    }
 
                     // Update UI with optimized route
                     SwingUtilities.invokeLater(() -> routeMapPanel.updateRoute(optimizedRoute));
@@ -339,6 +365,38 @@ public class DeliveryRouteOptimizationApp extends JFrame {
             }
 
             return reconstructPath(previous, source, destination);
+        }
+
+        private List<City> findTSPNearestNeighbor(City start) {
+            List<City> route = new ArrayList<>();
+            Set<City> visited = new HashSet<>();
+
+            City current = start;
+            while (visited.size() < cityMap.size()) {
+                route.add(current);
+                visited.add(current);
+
+                City nextCity = null;
+                int minDistance = Integer.MAX_VALUE;
+
+                for (Map.Entry<City, Integer> entry : current.getConnections().entrySet()) {
+                    City neighbor = entry.getKey();
+                    int distance = entry.getValue();
+                    if (!visited.contains(neighbor) && distance < minDistance) {
+                        nextCity = neighbor;
+                        minDistance = distance;
+                    }
+                }
+
+                if (nextCity != null) {
+                    current = nextCity;
+                } else {
+                    break;  // No more unvisited neighbors
+                }
+            }
+
+            route.add(start);  // Return to the start to complete the circuit
+            return route;
         }
 
         private City getClosestCity(Set<City> unvisited, Map<City, Integer> distances) {

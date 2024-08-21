@@ -116,6 +116,6 @@ public class ClassroomScheduler {
 
         System.out.println(maxClassrooms(2, classes1)); // Output: 0
         System.out.println(maxClassrooms(3, classes2)); // Output: 1
-        System.out.println(maxClassrooms(3, classes3)); // Output: 1
+        System.out.println(maxClassrooms(3, classes3)); // Output: 0
     }
 }
